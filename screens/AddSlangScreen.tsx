@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
+import { db } from './../firebaseConfig';
 
 const AddSlangScreen = () => {
   const [word, setWord] = useState('');
