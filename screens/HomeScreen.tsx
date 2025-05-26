@@ -168,7 +168,6 @@ const HomeScreen = () => {
 
             {isAdmin && (
                 <Button
-
                     mode="contained"
                     onPress={() => navigation.navigate('Slang Form')}
                     style={{ marginTop: 16 }}

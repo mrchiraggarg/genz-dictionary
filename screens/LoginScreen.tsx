@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from './../firebaseConfig'; // ✅ Ensure firebase is initialized here
 
 type RootStackParamList = {
   Login: undefined;
@@ -16,7 +17,7 @@ export default function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const auth = getAuth();
+  // const auth = getAuth();
 
   const handleLogin = () => {
     if (!email || !password) {

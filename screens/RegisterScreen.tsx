@@ -1,9 +1,9 @@
-// screens/RegisterScreen.tsx
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { app } from './../firebaseConfig'; // ✅ Ensure firebase is initialized here
 
 type RootStackParamList = {
   Login: undefined;
@@ -18,8 +18,8 @@ export default function RegisterScreen({ navigation }: Props) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const auth = getAuth();
-  const db = getFirestore();
+  const auth = getAuth(app); // ✅ pass app instance
+  const db = getFirestore(app);
 
   const handleRegister = async () => {
     if (!email || !password || !confirmPassword) {
@@ -36,14 +36,13 @@ export default function RegisterScreen({ navigation }: Props) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Save user info to Firestore
       await setDoc(doc(db, 'users', user.uid), {
         email: user.email,
-        role: 'user',       // default role, change if needed
-        createdAt: new Date(),
+        role: 'user', // default role
+        createdAt: serverTimestamp(),
       });
 
-      Alert.alert('Registration Successful');
+      Alert.alert('Success', 'Registration Successful');
       navigation.replace('GenZ Dictionary');
     } catch (error: any) {
       Alert.alert('Registration Failed', error.message);
@@ -62,7 +61,6 @@ export default function RegisterScreen({ navigation }: Props) {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-
       <TextInput
         placeholder="Password"
         style={styles.input}
@@ -70,7 +68,6 @@ export default function RegisterScreen({ navigation }: Props) {
         onChangeText={setPassword}
         secureTextEntry
       />
-
       <TextInput
         placeholder="Confirm Password"
         style={styles.input}
@@ -80,11 +77,9 @@ export default function RegisterScreen({ navigation }: Props) {
       />
 
       <Button title="Register" onPress={handleRegister} />
-
-      <Button
-        title="Already have an account? Login"
-        onPress={() => navigation.navigate('Login')}
-      />
+      <View style={{ marginTop: 10 }}>
+        <Button title="Already have an account? Login" onPress={() => navigation.navigate('Login')} />
+      </View>
     </View>
   );
 }
