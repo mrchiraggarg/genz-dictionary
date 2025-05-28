@@ -3,8 +3,6 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-// NOTE: Do NOT use getAnalytics in React Native; it’s for web only
-
 const firebaseConfig = {
   apiKey: "AIzaSyDsnaoX6C1xi6EN3PyGSw72aQb3G0cb5Yc",
   authDomain: "genz-dictionary-1ed68.firebaseapp.com",
